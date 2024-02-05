@@ -1,4 +1,6 @@
 # WebApi
+Aby uruchomić aplikacje to gdy się pobierze z Githuba, to trzeba ustawić połączenie z serverem MS_SQL, uruchomić aplikacje, użyć endpointa api/file -> najpierw pobiera 3 pliki CSV do pliku FilesCSV, potem pobiera z nich odpowiednie rekordy do bazy danych. Następnie powinien automatycznie wykryć brak połączenia z daną bazą, więc tworzy nową bazę danych "ProjectWebApiDb", potem tworzy 3 puste tablice: Products, Prices, Inventories, później je wypełnia danymi rekordami. Jeśli tak się nie połączy to użyć sposób poniższy z komendą update-database.
+
 Aby uruchomić aplikacje trzeba pobrać z githuba, ustawić połączenie z bazą danych MS_SQL wartość ProductsDbContext z appsettings.Developer.json.
 Potem wejść w Visual Studio COmmunity 2022 -> Tools-> Nuget Package Manager -> Package Console Manager i wpisać do terminala update-database. Jeśli nie ma migracji lub nie działa, to usunąć plik Migrations z projektu, następnie w treminalu add-migration Init, potem update-database. Za pomocą tych komend tworzy się nowa baza danych ProjectWebApiDb + 3 puste tablice Products, Prices, Inventories w MS_SQL za pomocą Entity Framework.
 Gdy się uruchomi aplikacje, otworzy się za pomocą Swaggera jako dokumentacja WEB API.

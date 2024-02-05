@@ -47,12 +47,9 @@ namespace WebApplication1.Services
 
         public DetailsProductDto GetDetailsProduct(string SKU)
         {
-            if (WebApplication1.File.Products == null || WebApplication1.File.Products.Count() == 0) return new DetailsProductDto();
-
             var records = WebApplication1.File.Products.FirstOrDefault(p => p.SKU == SKU);
             var detailsRecords = mapper.Map<DetailsProductDto>(records);
             return detailsRecords;
-
 
         }
 
@@ -67,6 +64,15 @@ namespace WebApplication1.Services
 
         public PageResult<AllProductDto> GetAll(ProductQuery searchQuery)
         {
+            if (dbContext.Database.CanConnect())
+            {
+                if (dbContext.Products == null || dbContext.Products.Count() == 0) throw new BadRequestException("There are no records in the Products table, use the api/file action to set the records in the Products table!!!");
+            }
+            else
+            {
+                throw new BadRequestException("No database connection !!!");
+            }
+
             // .Skip(searchQuery.PageSize * (searchQuery.PageNumber - 1)) -> 5 * (2 - 1) = 10 -> skip 10 items
             var baseQuery = dbContext.Products
                 .Where(p => searchQuery.SearchWord == null || (p.Id.ToString().Contains(searchQuery.SearchWord)));

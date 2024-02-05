@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using MusicStoreApi.Exceptions;
 using System.IO;
 using System.Linq.Expressions;
 using WebApplication1.Model;
@@ -66,12 +68,14 @@ namespace WebApplication1.Controllers
         [HttpGet("details")]
         public ActionResult<ShowProductDto> GetDetailsProduct([FromQuery] string SKU)
         {
+            if (WebApplication1.File.Products == null || WebApplication1.File.Products.Count() == 0) return Ok("No records in the Product list!!! use the api/file endpoint -> to load the Products, Inventories, Prices lists and create 3 new tables with records and then api/file/details -> to see the details of a given product");
+
             var productDetails = productService.GetDetailsProduct(SKU);
             try 
             {
-                if (string.IsNullOrEmpty(productDetails.Name)) return Ok("The products in the list are empty, use the api/file endpoint -> to load the Products, Inventories, Prices lists and create 3 new tables with records and then api/file/details -> to see the details of a given product");
+                if (productDetails.SKU == null) throw new NullReferenceException();
             }
-            catch (NullReferenceException ex) { return Ok("please enter a valid SKU value"); }
+            catch (NullReferenceException ex) { return Ok("There is no such Product with the given SKU number!!, please enter a valid SKU value"); }
             
 
             productDetails = inventoryService.GetDetailsInventory(productDetails);

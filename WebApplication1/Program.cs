@@ -2,6 +2,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MusicStoreApi.Middleware;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -36,7 +37,10 @@ namespace WebApplication1
             builder.Services.AddScoped<ErrorHandlingMiddleware>();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<ProductsDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ProductsDbContext")));
+            builder.Services.AddDbContext<ProductsDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ProductsDbContext"), builder =>
+            {
+                builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            }));
 
 
             var app = builder.Build();

@@ -61,6 +61,15 @@ namespace WebApplication1.Services
 
         public PageResult<AllPriceDto> GetAll(PriceQuery searchQuery)
         {
+            if (dbContext.Database.CanConnect())
+            {
+                if (dbContext.Prices == null || dbContext.Prices.Count() == 0) throw new BadRequestException("There are no records in the Prices table, use the api/file action to set the records in the Prices table!!!");
+            }
+            else
+            {
+                throw new BadRequestException("No database connection !!!");
+            }
+            
             // .Skip(searchQuery.PageSize * (searchQuery.PageNumber - 1)) -> 5 * (2 - 1) = 10 -> skip 10 items
             var baseQuery = dbContext.Prices
                 .Where(p => searchQuery.SearchWord == null || (p.Id.ToString().Contains(searchQuery.SearchWord)));

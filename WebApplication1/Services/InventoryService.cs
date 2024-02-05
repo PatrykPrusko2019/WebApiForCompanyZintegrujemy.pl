@@ -60,6 +60,15 @@ namespace WebApplication1.Services
 
         public PageResult<AllInventoryDto> GetAll(InventoryQuery searchQuery)
         {
+            if (dbContext.Database.CanConnect())
+            {
+                if (dbContext.Inventories == null || dbContext.Inventories.Count() == 0) throw new BadRequestException("There are no records in the Inventories table, use the api/file action to set the records in the Inventories table!!!");
+            }
+            else
+            {
+                throw new BadRequestException("No database connection !!!");
+            }
+
             // .Skip(searchQuery.PageSize * (searchQuery.PageNumber - 1)) -> 5 * (2 - 1) = 10 -> skip 10 items
             var baseQuery = dbContext.Inventories
                 .Where(i => searchQuery.SearchWord == null || (i.Id.ToString().Contains(searchQuery.SearchWord)));

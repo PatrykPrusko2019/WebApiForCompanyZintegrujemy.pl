@@ -51,7 +51,7 @@ namespace WebApplication1.SetNewRecordsToDatabase
 
         private void ConnectDatabase()
         {
-            if (dbContext.Database.CanConnect())
+            if (!dbContext.Database.CanConnect())
             {
                 var pendingMigrations = dbContext.Database.GetPendingMigrations();
                 if (pendingMigrations != null && pendingMigrations.Any())
@@ -61,5 +61,6 @@ namespace WebApplication1.SetNewRecordsToDatabase
             }
         }
 
+        
     }
 }

@@ -12,7 +12,7 @@ using WebApplication1.Entities;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(ProductsDbContext))]
-    [Migration("20240204235840_Init")]
+    [Migration("20240205014346_Init")]
     partial class Init
     {
         /// <inheritdoc />

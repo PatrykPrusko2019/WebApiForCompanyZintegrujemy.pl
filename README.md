@@ -1,6 +1,7 @@
 # WebApi
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Aplikacja udostępniona na chmurze Azure, to jest wersja programu która jest razem z aplikacją Frontendowa.
 Link do niej : https://product-api-app.azurewebsites.net/swagger/index.html
 Można się z nią też połączyć z aplikacji Frontend tylko trzeba zmienić w katalogu FrontEndApp/Utilites/HelperHttpClient trzeba zmienić adres uri na : private const string uri = @"https://product-api-app.azurewebsites.net/"; // azure connection
